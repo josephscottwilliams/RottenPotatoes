@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Favorite Movies</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">Rotten Potatoes</a>
+        <form class="form-inline">
+            <button class="btn btn-outline-danger my-2 my-sm-0" onclick="clearList()">Clear List</button>
+            <input class="form-control mr-sm-2" type="text" id="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-danger my-2 my-sm-0" id="search-button">Search</button>
+        </form>
+    </nav>
+    <div id="movie-container">
+        <div id="image-div">
+        </div>
+        <div id="info-div">
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+
+// Functions *************************************************************************************
+
+        function createRow(data) {
+            var wholeDiv = $("<div>");
+            var imgDiv = $("<div>");
+            var infoDiv = $("<div>");
+            var newDiv = $("<div>");
+
+            // Create image section --------------------------------------------------------------
+            var image = $("<img>");
+            image.attr({
+                "src": data.Poster,
+                "height": "auto"
+            });
+
+            image.addClass("image-div");
+
+
+            // Create info section --------------------------------------------------------------
+            // Title
+            var title = $("<div>").addClass("title-text");
+
+            // Year
+            var year = $("<p>").addClass("year");
+            year.text("(" + data.Year + ")");
+
+            title.text(data.Title).append(year);
+            infoDiv.append(title)
+            // Plot
+            var plot = $("<div>").addClass("plot-text")
+            plot.text(data.Plot)
+            infoDiv.append(plot);
+            infoDiv.addClass("info-div")
+            // Ratings
+            var ratings = $("<div>").addClass("ratings");
+            ratings.text("Rotten Tomatoes Score: " + data.Ratings[1].Value + " IMDB Score: " + data.Ratings[2].Value);
+            infoDiv.append(ratings);
+            // Rated
+            var rated = $("<div>").addClass("rated");
+            rated.text("Rated: " + data.Rated)
+            infoDiv.append(rated);
+            // Genre
+            var genre = $("<div>").addClass("actors");
+            genre.text("Genre: " + data.Genre)
+            infoDiv.append(genre);
+            // Director
+            var director = $("<div>").addClass("actors");
+            director.text("Director: " + data.Director)
+            infoDiv.append(director);
+            // Actors
+            var actors = $("<div>").addClass("actors");
+            actors.text(data.Actors)
+            infoDiv.append(actors);
+            // Awards
+            var awards = $("<div>").addClass("actors");
+            awards.text(data.Awards)
+            infoDiv.append(awards);
+
+
+
+            wholeDiv.css("height", "500px");
+            wholeDiv.append(image, infoDiv).append("<br/>")
+
+            $("#movie-container").prepend(wholeDiv)
+
+            console.log(data.Poster)
+
+        }
+        // Function to Search for movie info using AJAX and OMDB ------------------------------------
+        function searchOMDB(movie) {
+            var movieSearch = "http://www.omdbapi.com/?t=" + movie + "&apikey=trilogy"
+            // Possible to use $.get()???
+
+            $.ajax({
+                url: movieSearch,
+                method: "GET"
+            }).then(function (response) {
+                console.log(response)
+                createRow(response)
+                $("#search").val("");
+            })
+        }
+
+        // Hard-Coded Initial Search
+            searchOMDB("inception")
+
+
+        // Search Button On-Click Feature
+            $("#search-button").on("click", function (event) {
+                var searchWord = $("#search").val()
+                console.log(searchWord)
+                searchOMDB(searchWord);
+            })
+        // Enable "Enter" to search for user input
+            $("#search").keypress(function(event){
+                if(event.keyCode === 13){
+                    event.preventDefault()
+                    var findWord = $("#search").val()
+                    searchOMDB(findWord)
+                }
+            })
+        //  Clear List of Searches
+            function clearList() {
+                $("#movie-container").empty()
+             }
+
+    </script>
+</body>
+
+</html>
