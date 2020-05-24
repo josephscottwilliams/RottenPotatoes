@@ -1,7 +1,7 @@
 # RottenPotatoes
 https://josephscottwilliams.github.io/RottenPotatoes/
 
-![](images/Screen Shot 2020-05-24 at 7.43.50 AM.png)
+![](images/RottenPotatoesScreenshot.png)
 
 ## Work in progress...
 
