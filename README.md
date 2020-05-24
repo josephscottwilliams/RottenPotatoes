@@ -20,3 +20,7 @@ http://omdbapi.com/
 ### How to Use:
 User may use input to search movie by title, response to search will be loaded at the top of their screen!  
 Response includes movie poster, title user is searching for, year it was released, short synopsis, actors, director, Ratings from Rotten Tomatoes and IMDb
+
+### Future Issues to Address:
+- Mobile Responsiveness/Additional Formatting
+- Modify get request to return all titles for search Ex. "Star Wars"
